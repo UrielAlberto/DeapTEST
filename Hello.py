@@ -40,7 +40,6 @@ def protectedDiv(left, right):
     return x
 
 pset = gp.PrimitiveSet("MAIN", 1)
-
 pset.addPrimitive(operator.add, 2)
 pset.addPrimitive(operator.sub, 2)
 pset.addPrimitive(operator.mul, 2)
