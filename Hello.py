@@ -128,7 +128,7 @@ def main(problema,cont):
             test_y="./Results/Problem%d/test_y.txt"
             trainp_y="./Results/Problem%d/train_y.txt"
             my_data1 = numpy.genfromtxt(train_x % problema, delimiter=' ')
-            my_data2 = numpy.genfromtxt(train_y % problema,  cont, delimiter=' ')
+            my_data2 = numpy.genfromtxt(train_y % (problema,  cont), delimiter=' ')
             my_data3 = numpy.genfromtxt(test_x % problema, delimiter=' ')
             my_data4 = numpy.genfromtxt(test_y % problema, delimiter=' ')
             my_data5 = numpy.genfromtxt(trainp_y % problema, delimiter=' ')
@@ -170,8 +170,8 @@ def main(problema,cont):
 
 if __name__ == "__main__":
     Var=[]
-    cont=10
     for problema in range(19):
+        for cont in range(10, 90, 10):
+            main(problema + 1, cont + 10)
 
-        main(problema +1,cont)
     print Var[:]
