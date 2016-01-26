@@ -1,3 +1,4 @@
+
 # print("Hello putito")
 # print("Hello 2 putito")
 # print 'hello tito'
@@ -19,6 +20,7 @@
 import operator
 import math
 import random
+import matplotlib.pyplot as plt
 
 import numpy
 
@@ -64,19 +66,47 @@ toolbox.register("compile", gp.compile, pset=pset)
 def evalSymbReg(individual, points,points2):
     # Transform the tree expression in a callable function
     func = toolbox.compile(expr=individual)
+    #S=func
+
     # Evaluate the mean squared error between the expression
     # and the real function : x**4 + x**3 + x**2 + x
 
+    # print individual
+    # import matplotlib.pyplot as plt
+    # plt.plot(func,points2)
+    # plt.ylabel('some numbers')
+    # plt.show()
+    # sqerrors2 = (func(points[x]) for x in range(len(points)))
     sqerrors = ((func(points[x]) - points2[x])**2 for x in range(len(points)))
+    # RESULT=sqerrors2.next()#math.fsum(sqerrors)
+    # print RESULT
     return math.fsum(sqerrors) / len(points),
+
+def evalSymbRegBest(individual, points,points2,points3,points5):
+    # Transform the tree expression in a callable function
+    func = toolbox.compile(expr=individual)
+
+    print individual
+    sqerrors2=[]
+    for x in range(len(points3)):
+        sqerrors2.append(func(points3[x]))
+    print len
+    plt.figure(1)
+    plt.subplot(221)
+    plt.plot(points,points5,'go')
+
+    plt.subplot(222)
+    plt.plot(points,points2,'bo')
+
+    plt.subplot(223)
+    plt.plot(points3,sqerrors2,'ro')
+    plt.show()
 
 def Test(train_x,train_y):
     # direccion1=trainx
     # direccion2="./Problem1/test_x.txt"
 
     my_data1 = train_x
-
-
     my_data2 = train_y
 
     toolbox.register("evaluate", evalSymbReg, points=my_data1, points2=my_data2)
@@ -91,16 +121,18 @@ toolbox.register("mutate", gp.mutUniform, expr=toolbox.expr_mut, pset=pset)
 toolbox.decorate("mate", gp.staticLimit(key=operator.attrgetter("height"), max_value=17))
 toolbox.decorate("mutate", gp.staticLimit(key=operator.attrgetter("height"), max_value=17))
 
-def main(runs,cont):
+def main(problema,cont):
     #random.seed(318)
-            train_x="./Results/Problem7/train_x.txt"
-            train_y="./Results/Problem7/train_y.txt"
-            test_x="./Results/Problem7/test_x.txt"
-            test_y="./Results/Problem7/test_y.txt"
+            train_x='./Results/Problem%d/train_x.txt'%problema
+            train_y='./Results/Problem%d/OutLy60.txt'%problema, 'a'
+            test_x='./Results/Problem%d/test_x.txt'%problema, 'a'
+            test_y='./Results/Problem%d/test_y.txt'%problema, 'a'
+            trainp_y='./Results/Problem%d/train_y.txt'%problema, 'a'
             my_data1 = numpy.genfromtxt(train_x, delimiter=' ')
             my_data2 = numpy.genfromtxt(train_y, delimiter=' ')
             my_data3 = numpy.genfromtxt(test_x, delimiter=' ')
             my_data4 = numpy.genfromtxt(test_y, delimiter=' ')
+            my_data5 = numpy.genfromtxt(trainp_y, delimiter=' ')
 
             Test(my_data1,my_data2)
 
@@ -115,21 +147,21 @@ def main(runs,cont):
             mstats.register("min", numpy.min)
             mstats.register("max", numpy.max)
 
-            pop, log = algorithms.eaSimple(pop, toolbox, 0.9, 0.1, 5, stats=mstats,
+            pop, log = algorithms.eaSimple(pop, toolbox, 0.9, 0.1, 50, stats=mstats,
                                        halloffame=hof, verbose=True)
             # print log
-            # logging.info("Best individual is %s, %s", gp.evaluate(hof[1]), hof[1].fitness)
+            # logging.info("Best individual is %s, %s", gp.evaluate(hof[0]), hof[0].fitness)
             # hof[0]
-            var=evalSymbReg(hof[0],my_data3,my_data4)
+            var=evalSymbRegBest(hof[0],my_data1,my_data2,my_data3,my_data5)
             outfile = open('./Results/Problem7/BestFitness_%d.txt'%(cont), 'a')
-            outfile.write("\n%s"%var[0])
+            outfile.write("\n%s"%hof[0])
             # outfile = open('popfinal.txt', 'w')
 
             # outfile.write("\n Best individual is: %s  %s" %( hof[0].fitness,  str(hof[0])))
             # outfile.write("\n Best individual is: %s %s" % ( hof[1].fitness, str(hof[1])))
             # outfile.write("\n Best individual is: %s %s " % ( hof[2].fitness,  str(hof[2])))
             # Var=[]
-            Var.insert(runs,var[0])
+            # Var.insert(runs,var[0])
             # list((Var))
 
 
@@ -140,7 +172,7 @@ def main(runs,cont):
 if __name__ == "__main__":
     Var=[]
     cont=10
-    for runs in range(5):
-        main(runs,cont)
+    for problema in range(18):
+        main(problema +1,cont)
     print Var[:]
 
