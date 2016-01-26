@@ -1,5 +1,3 @@
 
-0
-sin(sin(sub(1, cos(0))))
-cos(sub(add(sub(neg(neg(x)), x), sub(neg(x), x)), x))
-add(neg(protectedDiv(x, x)), mul(x, 1))
+sin(sin(add(x, -1)))
+neg(cos(cos(cos(sub(-1, x)))))

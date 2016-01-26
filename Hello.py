@@ -1,4 +1,3 @@
-
 # print("Hello putito")
 # print("Hello 2 putito")
 # print 'hello tito'
@@ -91,7 +90,7 @@ def evalSymbRegBest(individual, points,points2,points3,points5):
     for x in range(len(points3)):
         sqerrors2.append(func(points3[x]))
     print len
-    plt.figure(1)
+    fig =plt.figure(1)
     plt.subplot(221)
     plt.plot(points,points5,'go')
 
@@ -99,8 +98,10 @@ def evalSymbRegBest(individual, points,points2,points3,points5):
     plt.plot(points,points2,'bo')
 
     plt.subplot(223)
-    plt.plot(points3,sqerrors2,'ro')
-    plt.show()
+    plt.plot(points3,sqerrors2,'rs')
+    fig.savefig('./Results/Problem%d/best%d.eps'%(problema,cont), dpi=fig.dpi)
+    plt.close(all)
+
 
 def Test(train_x,train_y):
     # direccion1=trainx
@@ -123,16 +124,16 @@ toolbox.decorate("mutate", gp.staticLimit(key=operator.attrgetter("height"), max
 
 def main(problema,cont):
     #random.seed(318)
-            train_x='./Results/Problem%d/train_x.txt'%problema
-            train_y='./Results/Problem%d/OutLy60.txt'%problema, 'a'
-            test_x='./Results/Problem%d/test_x.txt'%problema, 'a'
-            test_y='./Results/Problem%d/test_y.txt'%problema, 'a'
-            trainp_y='./Results/Problem%d/train_y.txt'%problema, 'a'
-            my_data1 = numpy.genfromtxt(train_x, delimiter=' ')
-            my_data2 = numpy.genfromtxt(train_y, delimiter=' ')
-            my_data3 = numpy.genfromtxt(test_x, delimiter=' ')
-            my_data4 = numpy.genfromtxt(test_y, delimiter=' ')
-            my_data5 = numpy.genfromtxt(trainp_y, delimiter=' ')
+            train_x="./Results/Problem%d/train_x.txt"
+            train_y="./Results/Problem%d/OutLy%d.txt"
+            test_x="./Results/Problem%d/test_x.txt"
+            test_y="./Results/Problem%d/test_y.txt"
+            trainp_y="./Results/Problem%d/train_y.txt"
+            my_data1 = numpy.genfromtxt(train_x % problema, delimiter=' ')
+            my_data2 = numpy.genfromtxt(train_y % (problema,  cont), delimiter=' ')
+            my_data3 = numpy.genfromtxt(test_x % problema, delimiter=' ')
+            my_data4 = numpy.genfromtxt(test_y % problema, delimiter=' ')
+            my_data5 = numpy.genfromtxt(trainp_y % problema, delimiter=' ')
 
             Test(my_data1,my_data2)
 
@@ -147,13 +148,13 @@ def main(problema,cont):
             mstats.register("min", numpy.min)
             mstats.register("max", numpy.max)
 
-            pop, log = algorithms.eaSimple(pop, toolbox, 0.9, 0.1, 50, stats=mstats,
+            pop, log = algorithms.eaSimple(pop, toolbox, 0.9, 0.1, 11, stats=mstats,
                                        halloffame=hof, verbose=True)
             # print log
             # logging.info("Best individual is %s, %s", gp.evaluate(hof[0]), hof[0].fitness)
             # hof[0]
             var=evalSymbRegBest(hof[0],my_data1,my_data2,my_data3,my_data5)
-            outfile = open('./Results/Problem7/BestFitness_%d.txt'%(cont), 'a')
+            outfile = open('./Results/Problem%d/BestFitness_%d.txt'%(problema,cont), 'a')
             outfile.write("\n%s"%hof[0])
             # outfile = open('popfinal.txt', 'w')
 
@@ -171,8 +172,8 @@ def main(problema,cont):
 
 if __name__ == "__main__":
     Var=[]
-    cont=10
-    for problema in range(19):
-        main(problema +1,cont)
-    print Var[:]
+    for problema in range(1,20):
+        for cont in range(10, 100, 10):
+            main(problema, cont)
 
+    print Var[:]
