@@ -172,7 +172,7 @@ def main(problema,cont):
 if __name__ == "__main__":
     Var=[]
     cont=10
-    for problema in range(18):
+    for problema in range(19):
         main(problema +1,cont)
     print Var[:]
 
