@@ -146,7 +146,7 @@ def main(problema,cont):
             mstats.register("min", numpy.min)
             mstats.register("max", numpy.max)
 
-            pop, log = algorithms.eaSimple(pop, toolbox, 0.9, 0.1, 50, stats=mstats,
+            pop, log = algorithms.eaSimple(pop, toolbox, 0.9, 0.1, 10, stats=mstats,
                                        halloffame=hof, verbose=True)
             # print log
             # logging.info("Best individual is %s, %s", gp.evaluate(hof[0]), hof[0].fitness)
@@ -172,6 +172,6 @@ if __name__ == "__main__":
     Var=[]
     for problema in range(19):
         for cont in range(10, 90, 10):
-            main(problema + 1, cont + 10)
+            main(problema + 1, cont )
 
     print Var[:]
