@@ -146,7 +146,7 @@ def main(problema,cont):
             mstats.register("min", numpy.min)
             mstats.register("max", numpy.max)
 
-            pop, log = algorithms.eaSimple(pop, toolbox, 0.9, 0.1, 10, stats=mstats,
+            pop, log = algorithms.eaSimple(pop, toolbox, 0.9, 0.1, 11, stats=mstats,
                                        halloffame=hof, verbose=True)
             # print log
             # logging.info("Best individual is %s, %s", gp.evaluate(hof[0]), hof[0].fitness)
