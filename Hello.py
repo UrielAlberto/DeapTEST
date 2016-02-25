@@ -15,7 +15,7 @@
 #
 #    You should have received a copy of the GNU Lesser General Public
 #    License along with EAP. If not, see <http://www.gnu.org/licenses/>.
-
+import itertools
 import operator
 import math
 import random
@@ -76,10 +76,23 @@ def evalSymbReg(individual, points,points2):
     # plt.ylabel('some numbers')
     # plt.show()
     # sqerrors2 = (func(points[x]) for x in range(len(points)))
-    sqerrors = ((func(points[x]) - points2[x])**2 for x in range(len(points)))
+    v=range(len(points))
+    sal = []
+    sqerrors=1000
+    for e in itertools.combinations(v, 10):
+
+        for t in range(len(e)):
+            temp=e[t]
+            salida = ((func(points[temp]) - points2[temp])**2 )
+            sal.append(salida)
+        sumatoria=math.fsum(sal) / len(v)
+        if sumatoria <= sqerrors:
+            sqerrors = sumatoria
+    #print sqerrors
+    #sqerrors = ((func(points[x]) - points2[x])**2 for x in range(len(points)))
     # RESULT=sqerrors2.next()#math.fsum(sqerrors)
     # print RESULT
-    return math.fsum(sqerrors) / len(points),
+    return sqerrors,
 
 def evalSymbRegBest(individual, points,points2,points3,points5):
     # Transform the tree expression in a callable function
@@ -100,7 +113,7 @@ def evalSymbRegBest(individual, points,points2,points3,points5):
     plt.subplot(223)
     plt.plot(points3,sqerrors2,'rs')
     fig.savefig('./Results/Problem%d/best%d.eps'%(problema,cont), dpi=fig.dpi)
-    plt.close(all)
+    plt.close(fig)
 
 
 def Test(train_x,train_y):

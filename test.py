@@ -1,5 +1,17 @@
-for problema in range(1,20):
-        for cont in range(10, 100, 10):
-        # main(problema + 1, cont )
+import itertools
 
-            print problema, cont
+v = range(0, 20)
+x = 0
+vector = []
+for e in itertools.combinations(v, 6):
+
+
+    for t in range(len(e)):
+
+        sal = e[t]
+
+        if sal <= 15:
+
+            s = sal
+
+        print  sal
