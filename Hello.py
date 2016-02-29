@@ -115,26 +115,27 @@ def evalSymbRegBest(individual, points,points2,points3,points5,run,Funcion):
     for x in range(len(points3)):
         sqerrors2.append(func(points3[x]))
     print len
-
+    #---Aqui generamos y los pinches arrays numpy a txt para despues promediarlo
     outfile = open('./Results/Problem%d/Res/BestOut%d_%d.txt'%(problema,cont,run),'ab')
     #outfile.write("%s "%sqerrors2)
     #outfile = open('./Problem%s/Res/test_Out%s_%s.txt'%(problema,cont,run, 'a'))
     out=numpy.array(sqerrors2,dtype=float)
     numpy.savetxt(outfile, out, delimiter='')
     #-----------------Experimento perron :v
+    """
     if run==10:
         A=[]
         B=[]
-        Cont=10
+        Out=10
         Problema=1
         for Run in range(1,11):
             vector="./Results/Problem%d/Res/BestOut%d_%d.txt"
             # C:\Users\Uriel\PycharmProjects\DeapTEST\Results\Problem1\Res\BestFitness_Out10_1.txt
-            matri = numpy.genfromtxt(vector % (Problema,Cont,Run), delimiter=',', dtype=float)
+            matri = numpy.genfromtxt(vector % (Problema,Out,Run), delimiter=',', dtype=float)
 
             A.insert(Run,matri)# = numpy.vstack(A,my_data1)
             te=numpy.matrix(A)
-            B=te.mean(0)
+        B=te.mean(0)
 
         fig =plt.figure(1)
         plt.subplot(221)
@@ -145,9 +146,11 @@ def evalSymbRegBest(individual, points,points2,points3,points5,run,Funcion):
 
         plt.subplot(223)
         plt.plot(points3,B,'rs')
-        fig.savefig('./Results/Problem%d/Res/best%d.eps'%(problema,cont), dpi=fig.dpi)
+        fig.savefig('./Results/Problem%d/Res/best%d.eps'%(problema,Out), dpi=fig.dpi)
         plt.close(fig)
-    #exprimento perron fin sad*
+
+
+    """ #exprimento perron fin sad*
 
 
 
@@ -196,7 +199,7 @@ def main(problema,cont,run,Funcion):
             mstats.register("min", numpy.min)
             mstats.register("max", numpy.max)
 
-            pop, log = algorithms.eaSimple(pop, toolbox, 0.9, 0.1, 10, stats=mstats,
+            pop, log = algorithms.eaSimple(pop, toolbox, 0.9, 0.1, 200, stats=mstats,
                                        halloffame=hof, verbose=True)
             # print log
             # logging.info("Best individual is %s, %s", gp.evaluate(hof[0]), hof[0].fitness)
@@ -221,14 +224,15 @@ def main(problema,cont,run,Funcion):
 
 
 if __name__ == "__main__":
+    Funcion=1
 
-    """"
+
     for problema in range(1,20):
         for cont in range(10, 100, 10):
             for run in range(1,31):
-                main(problema, cont, run, funcion)
+                main(problema, cont, run, Funcion)
+
     """""
-    Var=[]
     problema=1
 
     cont=10
@@ -238,5 +242,5 @@ if __name__ == "__main__":
 
         main(problema, cont, run,Funcion)
     #main(problema, cont)
-
+     """
     print Var[:]

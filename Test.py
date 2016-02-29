@@ -27,14 +27,18 @@ for e in itertools.combinations(v, 6):
 my_data1=[]
 A=[]
 B=[]
+Pro=1
+Out=10
 for run in range(1,11):
 
-    train_x="./Results/Problem1/Res/test10_%d.txt"
+    train_x="./Results/Problem%d/Res/BestOut%d_%d.txt"
     # C:\Users\Uriel\PycharmProjects\DeapTEST\Results\Problem1\Res\BestFitness_Out10_1.txt
-    my_data1 = numpy.genfromtxt(train_x % run, delimiter=',', dtype=float)
+    my_data1 = numpy.genfromtxt(train_x % (Pro,Out,run), delimiter=',', dtype=float)
 
     A.insert(run,my_data1)# = numpy.vstack(A,my_data1)
     te=numpy.matrix(A)
 B=te.mean(0)
 k= 51
+
+np.sum([0.5, 1.5])
 print B
