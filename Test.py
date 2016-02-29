@@ -25,13 +25,12 @@ for e in itertools.combinations(v, 6):
         print  sal
         """""
 my_data1=[]
-for run in range(1,31):
+A=[]
+for run in range(1,11):
 
     train_x="./Results/Problem1/Res/test10_%d.txt"
     # C:\Users\Uriel\PycharmProjects\DeapTEST\Results\Problem1\Res\BestFitness_Out10_1.txt
     my_data1 = numpy.genfromtxt(train_x % run, delimiter=',', dtype=float)
-    my_data.append(my_data1)
-    matris=numpy.matris_[run,my_data1]
 
-    #
-print out
+    A = numpy.vstack(A,my_data1)
+print A
