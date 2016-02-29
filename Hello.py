@@ -15,7 +15,7 @@
 #
 #    You should have received a copy of the GNU Lesser General Public
 #    License along with EAP. If not, see <http://www.gnu.org/licenses/>.
-
+import itertools
 import operator
 import math
 import random
@@ -62,7 +62,7 @@ toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.ex
 toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 toolbox.register("compile", gp.compile, pset=pset)
 
-def evalSymbReg(individual, points,points2):
+def evalSymbReg(individual, points,points2, funcion):
     # Transform the tree expression in a callable function
     func = toolbox.compile(expr=individual)
     #S=func
@@ -76,21 +76,46 @@ def evalSymbReg(individual, points,points2):
     # plt.ylabel('some numbers')
     # plt.show()
     # sqerrors2 = (func(points[x]) for x in range(len(points)))
-    sqerrors = ((func(points[x]) - points2[x])**2 for x in range(len(points)))
+
+    if funcion==1:
+        Sqerrors = ((func(points[x]) - points2[x])**2 for x in range(len(points)))
+        sqerrors=math.fsum(Sqerrors) / len(points)
+    '''
+    if funcion==2:
+        Sqerrors=10000
+            v=range(len(points))
+        for e in itertools.combinations(Sqerrors, 10):
+            ind=0
+            sal = []
+            for t in range(len(e)):
+
+                #temp=e[t]
+                #salida = ((func(points[temp]) - points2[temp])**2 )
+                #sal.insert(ind,salida)
+                ind=ind+1
+                sumatoria=math.fsum(e) / len(v)
+
+      #      sumatoria=math.fsum(sal) / len(v)
+
+            if sumatoria <= sqerrors:
+                sqerrors = sumatoria
+    '''''
+    #print sqerrors
+    #sqerrors = ((func(points[x]) - points2[x])**2 for x in range(len(points)))
     # RESULT=sqerrors2.next()#math.fsum(sqerrors)
     # print RESULT
-    return math.fsum(sqerrors) / len(points),
+    return sqerrors,
 
-def evalSymbRegBest(individual, points,points2,points3,points5):
+def evalSymbRegBest(individual, points,points2,points3,points5,run,Funcion):
     # Transform the tree expression in a callable function
     func = toolbox.compile(expr=individual)
 
-    print individual
+   # print individual
     sqerrors2=[]
     for x in range(len(points3)):
         sqerrors2.append(func(points3[x]))
     print len
-    plt.figure(1)
+    fig =plt.figure(1)
     plt.subplot(221)
     plt.plot(points,points5,'go')
 
@@ -98,17 +123,25 @@ def evalSymbRegBest(individual, points,points2,points3,points5):
     plt.plot(points,points2,'bo')
 
     plt.subplot(223)
-    plt.plot(points3,sqerrors2,'ro')
-    plt.show()
+    plt.plot(points3,sqerrors2,'rs')
+    fig.savefig('./Results/Problem%d/Res/best%d.eps'%(problema,cont), dpi=fig.dpi)
+    plt.close(fig)
 
-def Test(train_x,train_y):
+    outfile = open('./Results/Problem%d/Res/test%d_%d.txt'%(problema,cont,run),'ab')
+    #outfile.write("%s "%sqerrors2)
+    #outfile = open('./Problem%s/Res/test_Out%s_%s.txt'%(problema,cont,run, 'a'))
+    out=numpy.array(sqerrors2,dtype=float)
+    numpy.savetxt(outfile, out, delimiter='')
+    sqerrors2
+
+def Test(train_x,train_y,Funcion):
     # direccion1=trainx
     # direccion2="./Problem1/test_x.txt"
 
     my_data1 = train_x
     my_data2 = train_y
 
-    toolbox.register("evaluate", evalSymbReg, points=my_data1, points2=my_data2)
+    toolbox.register("evaluate", evalSymbReg, points=my_data1, points2=my_data2, funcion=Funcion)
     # toolbox.register("evaluate", evalSymbReg, points=my_data2)
 
 
@@ -120,7 +153,7 @@ toolbox.register("mutate", gp.mutUniform, expr=toolbox.expr_mut, pset=pset)
 toolbox.decorate("mate", gp.staticLimit(key=operator.attrgetter("height"), max_value=17))
 toolbox.decorate("mutate", gp.staticLimit(key=operator.attrgetter("height"), max_value=17))
 
-def main(problema,cont):
+def main(problema,cont,run,Funcion):
     #random.seed(318)
             train_x="./Results/Problem%d/train_x.txt"
             train_y="./Results/Problem%d/OutLy%d.txt"
@@ -133,7 +166,7 @@ def main(problema,cont):
             my_data4 = numpy.genfromtxt(test_y % problema, delimiter=' ')
             my_data5 = numpy.genfromtxt(trainp_y % problema, delimiter=' ')
 
-            Test(my_data1,my_data2)
+            Test(my_data1,my_data2,Funcion)
 
             pop = toolbox.population(n=100)
             hof = tools.HallOfFame(3)
@@ -146,14 +179,16 @@ def main(problema,cont):
             mstats.register("min", numpy.min)
             mstats.register("max", numpy.max)
 
-            pop, log = algorithms.eaSimple(pop, toolbox, 0.9, 0.1, 11, stats=mstats,
+            pop, log = algorithms.eaSimple(pop, toolbox, 0.9, 0.1, 10, stats=mstats,
                                        halloffame=hof, verbose=True)
             # print log
             # logging.info("Best individual is %s, %s", gp.evaluate(hof[0]), hof[0].fitness)
             # hof[0]
-            var=evalSymbRegBest(hof[0],my_data1,my_data2,my_data3,my_data5)
-            outfile = open('./Results/Problem7/BestFitness_%d.txt'%(cont), 'a')
+            var=evalSymbRegBest(hof[0],my_data1,my_data2,my_data3,my_data5,run,Funcion)
+            """ Descomentar esto si quieres el mejor invidivuo
+            outfile = open('./Results/Problem%d/BestFitness_%d.txt'%(problema,cont), 'a')
             outfile.write("\n%s"%hof[0])
+            """
             # outfile = open('popfinal.txt', 'w')
 
             # outfile.write("\n Best individual is: %s  %s" %( hof[0].fitness,  str(hof[0])))
@@ -169,9 +204,22 @@ def main(problema,cont):
 
 
 if __name__ == "__main__":
+
+    """"
+    for problema in range(1,20):
+        for cont in range(10, 100, 10):
+            for run in range(1,31):
+                main(problema, cont, run, funcion)
+    """""
     Var=[]
-    for problema in range(19):
-        for cont in range(10, 90, 10):
-            main(problema + 1, cont )
+    problema=1
+
+    cont=10
+    Funcion=1
+
+    for run in range(1,11):
+
+        main(problema, cont, run,Funcion)
+    #main(problema, cont)
 
     print Var[:]
