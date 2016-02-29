@@ -26,11 +26,15 @@ for e in itertools.combinations(v, 6):
         """""
 my_data1=[]
 A=[]
+B=[]
 for run in range(1,11):
 
     train_x="./Results/Problem1/Res/test10_%d.txt"
     # C:\Users\Uriel\PycharmProjects\DeapTEST\Results\Problem1\Res\BestFitness_Out10_1.txt
     my_data1 = numpy.genfromtxt(train_x % run, delimiter=',', dtype=float)
 
-    A = numpy.vstack(A,my_data1)
-print A
+    A.insert(run,my_data1)# = numpy.vstack(A,my_data1)
+    te=numpy.matrix(A)
+B=te.mean(0)
+k= 51
+print B

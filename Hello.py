@@ -115,24 +115,41 @@ def evalSymbRegBest(individual, points,points2,points3,points5,run,Funcion):
     for x in range(len(points3)):
         sqerrors2.append(func(points3[x]))
     print len
-    fig =plt.figure(1)
-    plt.subplot(221)
-    plt.plot(points,points5,'go')
 
-    plt.subplot(222)
-    plt.plot(points,points2,'bo')
-
-    plt.subplot(223)
-    plt.plot(points3,sqerrors2,'rs')
-    fig.savefig('./Results/Problem%d/Res/best%d.eps'%(problema,cont), dpi=fig.dpi)
-    plt.close(fig)
-
-    outfile = open('./Results/Problem%d/Res/test%d_%d.txt'%(problema,cont,run),'ab')
+    outfile = open('./Results/Problem%d/Res/BestOut%d_%d.txt'%(problema,cont,run),'ab')
     #outfile.write("%s "%sqerrors2)
     #outfile = open('./Problem%s/Res/test_Out%s_%s.txt'%(problema,cont,run, 'a'))
     out=numpy.array(sqerrors2,dtype=float)
     numpy.savetxt(outfile, out, delimiter='')
-    sqerrors2
+    #-----------------Experimento perron :v
+    if run==10:
+        A=[]
+        B=[]
+        Cont=10
+        Problema=1
+        for Run in range(1,11):
+            vector="./Results/Problem%d/Res/BestOut%d_%d.txt"
+            # C:\Users\Uriel\PycharmProjects\DeapTEST\Results\Problem1\Res\BestFitness_Out10_1.txt
+            matri = numpy.genfromtxt(vector % (Problema,Cont,Run), delimiter=',', dtype=float)
+
+            A.insert(Run,matri)# = numpy.vstack(A,my_data1)
+            te=numpy.matrix(A)
+            B=te.mean(0)
+
+        fig =plt.figure(1)
+        plt.subplot(221)
+        plt.plot(points,points5,'go')
+
+        plt.subplot(222)
+        plt.plot(points,points2,'bo')
+
+        plt.subplot(223)
+        plt.plot(points3,B,'rs')
+        fig.savefig('./Results/Problem%d/Res/best%d.eps'%(problema,cont), dpi=fig.dpi)
+        plt.close(fig)
+    #exprimento perron fin sad*
+
+
 
 def Test(train_x,train_y,Funcion):
     # direccion1=trainx
