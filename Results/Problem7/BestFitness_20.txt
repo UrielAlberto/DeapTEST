@@ -1,0 +1,5 @@
+
+mul(add(protectedDiv(x, add(x, add(cos(add(sin(cos(add(x, add(cos(x), x)))), x)), x))), add(add(x, sin(cos(x))), x)), x)
+mul(mul(add(cos(mul(x, mul(cos(protectedDiv(sin(sub(-1, -1)), sub(x, 0))), x))), 0), x), add(add(cos(x), mul(cos(-1), mul(-1, mul(add(cos(0), mul(cos(x), mul(mul(x, -1), add(add(cos(mul(-1, -1)), 0), mul(x, add(cos(x), mul(cos(sin(sub(-1, -1))), 0))))))), mul(add(cos(sub(-1, 0)), mul(mul(-1, sub(-1, mul(x, mul(cos(protectedDiv(sin(sub(-1, -1)), sub(x, 0))), x)))), 0)), x))))), mul(x, mul(x, -1))))
+sub(sub(x, x), sub(x, x))
+mul(mul(add(x, sin(1)), x), add(x, 1))

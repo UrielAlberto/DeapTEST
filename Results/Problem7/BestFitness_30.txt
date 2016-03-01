@@ -1,0 +1,5 @@
+
+mul(sub(neg(mul(sub(sub(sub(sub(0, mul(x, neg(-1))), sub(sub(sub(sub(0, mul(x, neg(-1))), sub(neg(x), neg(x))), sub(mul(x, x), x)), neg(x))), sub(mul(x, x), x)), cos(add(x, x))), 0)), mul(x, sub(sub(mul(x, sub(sub(-1, sub(neg(x), mul(x, x))), neg(x))), sub(neg(x), mul(x, x))), neg(x)))), mul(x, mul(sub(neg(neg(x)), -1), neg(sub(0, sin(mul(x, mul(sub(neg(x), sub(mul(x, mul(x, mul(sub(neg(x), mul(x, x)), sub(0, mul(x, neg(x)))))), mul(x, x))), 1))))))))
+mul(sin(sin(sin(sin(sin(sin(x)))))), cos(mul(x, mul(x, x))))
+add(neg(-1), sin(-1))
+neg(mul(mul(x, mul(x, mul(x, x))), add(x, 1)))
