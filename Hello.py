@@ -132,7 +132,7 @@ def evalSymbRegBest(individual, points,points2,points3,points5,run,Funcion):
         sqerrors2.append(func(points3[x]))
     print len
     #---Aqui generamos y los pinches arrays numpy a txt para despues promediarlo
-    outfile = open('./Results/Problem%d/ResLTS/BestOut%d_%d.txt'%(problema,cont,run),'ab')
+    outfile = open('./Results/Problem%d/Res%d/BestOut%d_%d.txt'%(problema,Funcion,cont,run),'ab')
 
     #outfile.write("%s "%sqerrors2)
     #outfile = open('./Problem%s/Res/test_Out%s_%s.txt'%(problema,cont,run, 'a'))
@@ -216,13 +216,13 @@ def main(problema,cont,run,Funcion):
             mstats.register("min", numpy.min)
             mstats.register("max", numpy.max)
 
-            pop, log, avg_size = algorithms.eaSimple(pop, toolbox, 0.9, 0.1, 200, problema,cont,run,stats=mstats,
+            pop, log, avg_size = algorithms.eaSimple(pop, toolbox, 0.9, 0.1, 200, problema,cont,run,Funcion,stats=mstats,
                                        halloffame=hof, verbose=True)
             # print log
             # logging.info("Best individual is %s, %s", gp.evaluate(hof[0]), hof[0].fitness)
             # hof[0]
             var=evalSymbRegBest(hof[0],my_data1,my_data2,my_data3,my_data5,run,Funcion)
-            outfile2 = open('./Results/Problem%d/ResLTS/BestSize%d_%d.txt'%(problema,cont,run),'ab')
+            outfile2 = open('./Results/Problem%d/Res%d/BestSize%d_%d.txt'%(problema,Funcion,cont,run),'ab')
             outfile2.write('\n%s;%s'%(len(hof[0]),avg_size))
 
 
@@ -245,7 +245,7 @@ def main(problema,cont,run,Funcion):
 
 
 if __name__ == "__main__":
-    Funcion=2
+    Funcion=3
 
 
     for problema in range(1,12):
