@@ -62,7 +62,7 @@ toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.ex
 toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 toolbox.register("compile", gp.compile, pset=pset)
 
-def evalSymbReg(individual, points,points2, funcion):
+def evalSymbReg(individual, points,points2, funcion,cont):
     # Transform the tree expression in a callable function
     func = toolbox.compile(expr=individual)
     #S=func
@@ -81,17 +81,22 @@ def evalSymbReg(individual, points,points2, funcion):
         Sqerrors = ((func(points[x]) - points2[x])**2 for x in range(len(points)))
         sqerrors=math.fsum(Sqerrors) / len(points)
     if funcion==2:#Funcion objetivo LTS
+        Cont=20
         ind=0
         sal=[]
-        porciento=len(points)
+        Largo=len(points)
+        outlayer=Largo*(float(Cont / 100.0))
+        porciento=int(Largo-outlayer)
+        if float(Cont/100.0)>0.5:
+            porciento=int(Largo-Largo*(float(0.5)))
         for t in range(len(points)):
             temp=t
             salida = ((func(points[temp]) - points2[temp])**2 )
             sal.insert(ind,salida)
             ind=ind+1
-        sqerrors=numpy.sum(sal)/10
-        for e in itertools.combinations(sal, 10):
-            OutVec2=numpy.sum(e)/10
+        sqerrors=numpy.sum(sal)/porciento
+        for e in itertools.combinations(sal, porciento):
+            OutVec2=numpy.sum(e)/porciento
             if sqerrors >= OutVec2:
                 sqerrors = OutVec2
     return sqerrors,
@@ -106,7 +111,7 @@ def evalSymbRegBest(individual, points,points2,points3,points5,run,Funcion):
         sqerrors2.append(func(points3[x]))
     print len
     #---Aqui generamos y los pinches arrays numpy a txt para despues promediarlo
-    outfile = open('./Results/Problem%d/ResLTSl/BestOut%d_%d.txt'%(problema,cont,run),'ab')
+    outfile = open('./Results/Problem%d/ResLTS/BestOut%d_%d.txt'%(problema,cont,run),'ab')
     #outfile.write("%s "%sqerrors2)
     #outfile = open('./Problem%s/Res/test_Out%s_%s.txt'%(problema,cont,run, 'a'))
     out=numpy.array(sqerrors2,dtype=float)
@@ -144,14 +149,14 @@ def evalSymbRegBest(individual, points,points2,points3,points5,run,Funcion):
 
 
 
-def Test(train_x,train_y,Funcion):
+def Test(train_x,train_y,Funcion,cont):
     # direccion1=trainx
     # direccion2="./Problem1/test_x.txt"
 
     my_data1 = train_x
     my_data2 = train_y
 
-    toolbox.register("evaluate", evalSymbReg, points=my_data1, points2=my_data2, funcion=Funcion)
+    toolbox.register("evaluate", evalSymbReg, points=my_data1, points2=my_data2, funcion=Funcion,cont=cont)
     # toolbox.register("evaluate", evalSymbReg, points=my_data2)
 
 
@@ -176,7 +181,7 @@ def main(problema,cont,run,Funcion):
             my_data4 = numpy.genfromtxt(test_y % problema, delimiter=' ')
             my_data5 = numpy.genfromtxt(trainp_y % problema, delimiter=' ')
 
-            Test(my_data1,my_data2,Funcion)
+            Test(my_data1,my_data2,Funcion,cont)
 
             pop = toolbox.population(n=100)
             hof = tools.HallOfFame(3)
@@ -214,10 +219,10 @@ def main(problema,cont,run,Funcion):
 
 
 if __name__ == "__main__":
-    Funcion=1
+    Funcion=2
 
 
-    for problema in range(1,20):
+    for problema in range(1,12):
         for cont in range(10, 100, 10):
             for run in range(1,31):
                 main(problema, cont, run, Funcion)
