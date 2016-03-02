@@ -1,0 +1,4 @@
+
+protectedDiv(mul(mul(sub(add(protectedDiv(x, x), sub(x, sub(x, x))), cos(sub(x, cos(cos(1))))), sub(cos(mul(sub(x, x), cos(cos(mul(mul(sub(add(protectedDiv(x, x), add(x, x)), cos(sub(x, cos(cos(1))))), sub(cos(mul(sub(x, x), cos(x))), cos(protectedDiv(x, mul(mul(sub(cos(1), x), cos(1)), x))))), x))))), cos(protectedDiv(x, 1)))), x), sub(cos(mul(sub(x, sub(cos(mul(sub(cos(sub(sub(x, x), add(x, x))), x), sub(cos(1), cos(mul(sub(x, cos(1)), x))))), cos(1))), 1)), x))
+sub(sin(add(sin(add(sin(sin(add(sin(add(sin(sin(sin(sin(sin(-1))))), x)), sin(add(sin(sin(sub(protectedDiv(-1, x), neg(1)))), add(x, sin(sin(sin(sin(sin(x))))))))))), x)), sin(add(sin(sin(sin(sin(mul(sub(sin(sin(add(sin(add(x, sin(x))), sin(x)))), x), add(-1, x)))))), add(x, sin(add(sin(x), sin(sin(x))))))))), x)
+add(mul(x, add(x, add(1, add(x, x)))), add(x, x))

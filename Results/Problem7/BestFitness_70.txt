@@ -1,0 +1,4 @@
+
+protectedDiv(x, sub(sub(add(sub(mul(x, x), mul(-1, 1)), sub(1, x)), add(x, mul(mul(x, sub(1, add(add(mul(sub(x, x), x), mul(sub(x, x), x)), x))), x))), x))
+mul(sub(0, mul(x, x)), sin(cos(-1)))
+add(x, mul(x, add(x, add(mul(x, x), sub(x, neg(sin(1)))))))
