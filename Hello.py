@@ -79,43 +79,34 @@ def evalSymbReg(individual, points,points2, funcion,cont):
 
     if funcion==1:#Funcion normal
         Sqerrors = ((func(points[x]) - points2[x])**2 for x in range(len(points)))
-        sqerrors=math.fsum(Sqerrors) / len(points)
+        sqerrors=math.fsum(Sqerrors) / len(points) #LSE
     if funcion==2:#Funcion objetivo LMS
-        Cont=20
         ind=0
         sal=[]
-        Largo=len(points)
-        outlayer=Largo*(float(Cont / 100.0))
-        porciento=int(Largo-outlayer)
-        if float(Cont/100.0)>0.5:
-            porciento=int(Largo-Largo*(float(0.5)))
         for t in range(len(points)):
             temp=t
             salida = ((func(points[temp]) - points2[temp])**2 )
             sal.insert(ind,salida)
             ind=ind+1
         sqerrors=numpy.median(sal)
-        for e in itertools.combinations(sal, porciento):
-            OutVec2=numpy.median(e)#LSM MAGIC
-            if sqerrors >= OutVec2:
-                sqerrors = OutVec2
+
     if funcion==3:#Funcion objetivo LTS
         Cont=20
         ind=0
         sal=[]
         Largo=len(points)
         outlayer=Largo*(float(Cont / 100.0))
-        porciento=int(Largo-outlayer)
+        porcientoLimp=int(Largo-outlayer)
         if float(Cont/100.0)>0.5:
-            porciento=int(Largo-Largo*(float(0.5)))
+            porcientoLimp=int(Largo-Largo*(float(0.5)))
         for t in range(len(points)):
             temp=t
             salida = ((func(points[temp]) - points2[temp])**2 )
             sal.insert(ind,salida)
             ind=ind+1
-        sqerrors=numpy.sum(sal)/porciento
-        for e in itertools.combinations(sal, porciento):
-            OutVec2=numpy.sum(e)/porciento #LTS MAGIC
+        sqerrors=numpy.sum(sal)
+        for e in itertools.combinations(sal, porcientoLimp):
+            OutVec2=numpy.sum(e) #LTS MAGIC
             if sqerrors >= OutVec2:
                 sqerrors = OutVec2
     return sqerrors,
@@ -245,13 +236,11 @@ def main(problema,cont,run,Funcion):
 
 
 if __name__ == "__main__":
-    Funcion=3
-
-
-    for problema in range(1,12):
-        for cont in range(10, 100, 10):
-            for run in range(1,31):
-                main(problema, cont, run, Funcion)
+    for Funcion in range(1,4):
+        for problema in range(1,12):
+            for cont in range(10, 100, 10):
+                for run in range(1,31):
+                    main(problema, cont, run, Funcion)
 
 
     """""
@@ -265,4 +254,3 @@ if __name__ == "__main__":
         main(problema, cont, run,Funcion)
     #main(problema, cont)
      """
-    print Var[:]
