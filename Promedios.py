@@ -25,23 +25,13 @@ for problema in range(1,12):
             A.insert(run,my_data1)# = numpy.vstack(A,my_data1)
             te=numpy.matrix(A)
         B=te.mean(0)
-        outfile = open('./Results/Problem%d/PromBest%d.txt'%(problema,cont),'ab')
+        outfile = open('./Results/Problem%d/BestProm%d.txt'%(problema,cont),'ab')
 
 
         out=numpy.array(B,dtype=float)
         numpy.savetxt(outfile, out, delimiter=' ')
-        Best="./Results/Problem%d/PromBest%d.txt"
-        my_data2 = numpy.genfromtxt(Best % (problema, cont), delimiter=' ', dtype=float)
-        fig =plt.figure(1)
-        plt.subplot(221)
-        plt.plot(my_data1,my_data2,'go')
 
-        plt.subplot(222)
-        plt.plot(my_data1,my_data2,'bo')
 
-        plt.subplot(223)
-        plt.plot(my_data3,my_data2,'rs')
-        plt.close(fig)
 
 
     """"
