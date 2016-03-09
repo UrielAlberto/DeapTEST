@@ -25,46 +25,22 @@ for problema in range(1,12):
             A.insert(run,my_data1)# = numpy.vstack(A,my_data1)
             te=numpy.matrix(A)
         B=te.mean(0)
-        outfile = open('./Results/Problem%d/PromBest%d.txt'%(problema,cont),'ab')
+        outfile = open('./Results/Problem%d/test%d.txt'%(problema,cont),'ab')
 
 
         out=numpy.array(B,dtype=float)
         numpy.savetxt(outfile, out, delimiter=' ')
-        Best="./Results/Problem%d/PromBest%d.txt"
+        Best="./Results/Problem%d/test%d.txt"
         my_data2 = numpy.genfromtxt(Best % (problema, cont), delimiter=' ', dtype=float)
+
+
         fig =plt.figure(1)
         plt.subplot(221)
-        plt.plot(my_data1,my_data2,'go')
+        plt.plot(my_data3,my_data2,'go')
 
         plt.subplot(222)
-        plt.plot(my_data1,my_data2,'bo')
+        plt.plot(my_data3,my_data2,'bo')
 
         plt.subplot(223)
         plt.plot(my_data3,my_data2,'rs')
         plt.close(fig)
-
-
-    """"
-            Out=10
-            Problema=1
-            for Run in range(1,11):
-                vector="./Results/Problem%d/Res/BestOut%d_%d.txt"
-                # C:\Users\Uriel\PycharmProjects\DeapTEST\Results\Problem1\Res\BestFitness_Out10_1.txt
-                matri = numpy.genfromtxt(vector % (Problema,Out,Run), delimiter=',', dtype=float)
-
-            A.insert(Run,matri)# = numpy.vstack(A,my_data1)
-            te=numpy.matrix(A)
-        B=te.mean(0)
-
-        fig =plt.figure(1)
-        plt.subplot(221)
-        plt.plot(points,points5,'go')
-
-        plt.subplot(222)
-        plt.plot(points,points2,'bo')
-
-        plt.subplot(223)
-        plt.plot(points3,B,'rs')
-        fig.savefig('./Results/Problem%d/Res/best%d.eps'%(problema,Out), dpi=fig.dpi)
-        plt.close(fig)
-    """""
